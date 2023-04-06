@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class TestaCurso {
     public static void main(String[] args) {
@@ -31,5 +33,29 @@ public class TestaCurso {
                 .filter(alunos -> alunos > 50)
                 .forEach(System.out::println);
 
+        System.out.println("-".repeat(25));
+
+        cursos.stream()
+                .filter(c -> c.getAlunos() >= 100)
+                .findAny()
+                .ifPresent(c -> System.out.println(c.getNome()));
+
+        System.out.println("-".repeat(25));
+
+        cursos.stream()
+                .filter(curso -> curso.getAlunos() >= 100)
+                .collect(Collectors.toMap(
+                        Curso::getNome,
+                        Curso::getAlunos))
+                .forEach((nome, qtdAlunos) -> System.out.println(nome + " tem " + qtdAlunos + " alunos."));
+
+        System.out.println("-".repeat(25));
+
+        Map<String, Integer> mapaDeCursos = cursos.stream()
+                .filter(curso -> curso.getAlunos() >= 100)
+                .collect(Collectors.toMap(
+                        Curso::getNome,
+                        Curso::getAlunos));
+        System.out.println(mapaDeCursos);
     }
 }
